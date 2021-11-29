@@ -12,6 +12,9 @@ from extra_keras_datasets import emnist
 def main():
     (x_train, y_train), (x_test, y_test) = emnist.load_data(type='byclass')
 
+    x_train = x_train.astype('float32')/255
+    x_test = x_test.astype('float32')/255
+
     model = tf.keras.models.Sequential([
     Flatten(),
     Dropout(0.36),
