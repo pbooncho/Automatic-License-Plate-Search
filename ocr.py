@@ -14,13 +14,14 @@ def main():
 
     model = tf.keras.models.Sequential([
     Flatten(),
+    Dense(72,activation="relu"), 
     Dropout(0.36),
     Dense(36,activation="softmax")
     ])
 
     predictions = model(x_train[:1]).numpy()
     tf.nn.softmax(predictions).numpy()
-    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
     model.compile(optimizer='adam',
               loss=loss_fn,
