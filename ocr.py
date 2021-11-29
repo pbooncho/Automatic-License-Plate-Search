@@ -17,8 +17,8 @@ def main():
 
     model = tf.keras.models.Sequential([
     Flatten(),
-    Dropout(0.36),
-    Dense(36,activation="softmax")
+    Dropout(0.2),
+    Dense(36,activation="relu")
     ])
 
     predictions = model(x_train[:1]).numpy()
