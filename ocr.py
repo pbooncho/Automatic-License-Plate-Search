@@ -15,13 +15,14 @@ def main():
     x_train = x_train.astype('float32')/255
     x_test = x_test.astype('float32')/255
 
-    x_shape = x_train.shape[1]
-    y_shape = y_train.shape[0]
+    #x_shape = x_train.shape[1]
+    #y_shape = y_train.shape[0]
     print(x_train.shape)
     print(y_train.shape)
-    fixed_x_train = np.zeros(x_shape,1)
-    fixed_y_train = np.zeros(y_shape)
-    for i in range(len(y_train)):
+    length = y_train.shape[0]
+    fixed_x_train = np.zeros((length,28,28))
+    fixed_y_train = np.zeros(length)
+    for i in range(length):
         if y_train[i] < 37:
             if y_train[i] == 0:
                 print("fix")
@@ -29,13 +30,12 @@ def main():
             np.append(fixed_y_train, y_train[i])
     
 
-    x1_shape = x_test.shape[1]
-    y1_shape = y_test.shape[0]
+    length1 = y_test.shape[0]
     print(x_test.shape)
     print(y_test.shape)
-    fixed_x_test = np.zeros(x1_shape,1)
-    fixed_y_test = np.zeros(y1_shape)
-    for i in range(len(y_test)):
+    fixed_x_test = np.zeros((length1,28,28))
+    fixed_y_test = np.zeros(length1,1)
+    for i in range(length1):
         if y_train[i] < 37:
             if y_train[i] == 0:
                 print("fix")
