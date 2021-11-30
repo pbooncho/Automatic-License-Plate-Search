@@ -20,7 +20,7 @@ def main():
     print(x_train.shape)
     print(y_train.shape)
     length = y_train.shape[0]
-    fixed_x_train = np.zeros((length,28,28))
+    fixed_x_train = np.zeros((1,28,28))
     fixed_y_train = np.zeros(length)
     for i in range(length):
         if y_train[i] == 46:
@@ -33,8 +33,8 @@ def main():
     length1 = y_test.shape[0]
     print(x_test.shape)
     print(y_test.shape)
-    fixed_x_test = np.zeros((length1,28,28))
-    fixed_y_test = np.zeros(length1,1)
+    fixed_x_test = np.zeros((1,28,28))
+    fixed_y_test = np.zeros(length1)
     for i in range(length1):
         if y_train[i] < 36:
             np.append(fixed_x_test, x_test[:][i])
@@ -47,16 +47,16 @@ def main():
     Dense(36,activation="softmax")
     ])
 
-    predictions = model(x_train[:1]).numpy()
+    predictions = model(fixed_x_train[:1]).numpy()
     tf.nn.softmax(predictions).numpy()
     loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
     model.compile(optimizer='adam',
               loss=loss_fn,
               metrics=['accuracy'])
-    model.fit(x_train, y_train, epochs=100)
+    model.fit(fixed_x_train, fixed_y_train, epochs=100)
 
-    model.evaluate(x_test,  y_test, verbose=2)
+    model.evaluate(fixed_x_test,  fixed_y_test, verbose=2)
 
 main()
 
