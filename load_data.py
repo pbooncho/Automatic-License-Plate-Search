@@ -92,7 +92,7 @@ if not isExist:
 resized_data_path = Path(path)
 for img_info in train_data:
     read_path = Path(str(images_path) + '/Cars' + str(img_info[0]) + '.png')
-    new_boundingbox = resize_image_boundingbox(read_path, resized_data_path, create_boundingbox_array(img_info), 512)
+    new_boundingbox = resize_image_boundingbox(read_path, resized_data_path, create_boundingbox_array(img_info), 224)
 
     new_boundingboxes.append(new_boundingbox)
 train_data = np.hstack((train_data, new_boundingboxes))
