@@ -29,8 +29,8 @@ def main():
         if y_train[i] < 36:
             #fixed_x_train = np.append(fixed_x_train, x_train[i][:][:])
             #fixed_y_train = np.append(fixed_y_train, y_train[i])
-            fixed_x_train = fixed_x_train + x_train[i][:][:]
-            fixed_y_train = fixed_y_train + y_train[i]
+            fixed_x_train = fixed_x_train + [x_train[i][:][:]]
+            fixed_y_train = fixed_y_train + [y_train[i]]
     
     print("separating second")
 
@@ -43,8 +43,8 @@ def main():
         if y_test[i] < 36:
             #fixed_x_test = np.append(fixed_x_test, x_test[i][:][:])
             #fixed_y_test = np.append(fixed_y_test, y_test[i])
-            fixed_x_test = fixed_x_test + x_test[i][:][:]
-            fixed_y_test = fixed_y_test + y_test[i]
+            fixed_x_test = fixed_x_test + [x_test[i][:][:]]
+            fixed_y_test = fixed_y_test + [y_test[i]]
     
     #fixed_x_train = fixed_x_train[1:][:][:]
     #fixed_y_train = fixed_y_train[1:]
