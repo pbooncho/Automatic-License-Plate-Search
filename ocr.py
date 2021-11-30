@@ -15,9 +15,14 @@ def main():
     x_train = x_train.astype('float32')/255
     x_test = x_test.astype('float32')/255
 
-    print(type(y_train))
-    print(x_train)
-    print(y_train)
+    #print(type(y_train))
+    #print(x_train)
+    #print(y_train)
+    print(x_train.labels())
+
+
+
+
 
     model = tf.keras.models.Sequential([
     Flatten(),
