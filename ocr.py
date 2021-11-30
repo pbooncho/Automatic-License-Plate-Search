@@ -15,36 +15,47 @@ def main():
     x_train = x_train.astype('float32')/255
     x_test = x_test.astype('float32')/255
 
+
+
     #x_shape = x_train.shape[1]
     #y_shape = y_train.shape[0]
     print(x_train.shape)
     print(y_train.shape)
     length = y_train.shape[0]
-    fixed_x_train = np.zeros((1,28,28))
-    fixed_y_train = np.zeros(1)
+    fixed_x_train = []
+    fixed_y_train = []
     print("separating first")
     for i in range(length):
         if y_train[i] < 36:
-            fixed_x_train = np.append(fixed_x_train, x_train[i][:][:])
-            fixed_y_train = np.append(fixed_y_train, y_train[i])
+            #fixed_x_train = np.append(fixed_x_train, x_train[i][:][:])
+            #fixed_y_train = np.append(fixed_y_train, y_train[i])
+            fixed_x_train = fixed_x_train.append(x_train[i][:][:])
+            fixed_y_train = fixed_y_train.append(y_train[i])
     
     print("separating second")
 
     length1 = y_test.shape[0]
     print(x_test.shape)
     print(y_test.shape)
-    fixed_x_test = np.zeros((1,28,28))
-    fixed_y_test = np.zeros(1)
+    fixed_x_test = []
+    fixed_y_test = []
     for i in range(length1):
         if y_test[i] < 36:
-            fixed_x_test = np.append(fixed_x_test, x_test[i][:][:])
-            fixed_y_test = np.append(fixed_y_test, y_test[i])
+            #fixed_x_test = np.append(fixed_x_test, x_test[i][:][:])
+            #fixed_y_test = np.append(fixed_y_test, y_test[i])
+            fixed_x_test = fixed_x_test.append(x_test[i][:][:])
+            fixed_y_test = fixed_y_test.append(y_test[i])
     
-    fixed_x_train = fixed_x_train[1:][:][:]
-    fixed_y_train = fixed_y_train[1:]
+    #fixed_x_train = fixed_x_train[1:][:][:]
+    #fixed_y_train = fixed_y_train[1:]
+    fixed_x_train = np.array(fixed_x_train)
+    fixed_y_train = np.array(fixed_y_train)
 
-    fixed_x_test = fixed_x_test[1:][:][:]
-    fixed_y_test = fixed_y_test[1:]
+    fixed_x_test = np.array(fixed_x_test)
+    fixed_y_test = np.array(fixed_y_test)
+
+    #fixed_x_test = fixed_x_test[1:][:][:]
+    #fixed_y_test = fixed_y_test[1:]
 
     print(fixed_x_train.shape)
     print(fixed_y_train.shape)
