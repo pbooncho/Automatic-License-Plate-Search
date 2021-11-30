@@ -32,21 +32,21 @@ def get_train_data_info_xml(annotations_path):
     sorted = annotations_list[np.argsort(annotations_list[:, 0])]
     return sorted
 
-csv_annotations_paths = [Path("raw_data/dataset2/annotations.csv"), Path("raw_data/dataset3/annotations.csv"), Path("raw_data/dataset4/annotations.csv")]
-def get_train_data_info_csv(annotations_paths):
-    data = []
-    for path in annotations_paths:
-        with open(path) as csvfile:
-            reader = csv.reader(csvfile, delimiter=',')
-            next(reader)
-            for row in reader:
-                if row[3] == 'license-plate':
-                    r = []
-                    for item in row:
-                        r.append(item)
-                    data.append(r)
-    return data
-csv_train_data = np.array(get_train_data_info_csv(csv_annotations_paths))
+# csv_annotations_paths = [Path("raw_data/dataset2/annotations.csv"), Path("raw_data/dataset3/annotations.csv"), Path("raw_data/dataset4/annotations.csv")]
+# def get_train_data_info_csv(annotations_paths):
+#     data = []
+#     for path in annotations_paths:
+#         with open(path) as csvfile:
+#             reader = csv.reader(csvfile, delimiter=',')
+#             next(reader)
+#             for row in reader:
+#                 if row[3] == 'license-plate':
+#                     r = []
+#                     for item in row:
+#                         r.append(item)
+#                     data.append(r)
+#     return data
+# csv_train_data = np.array(get_train_data_info_csv(csv_annotations_paths))
 
 train_data = get_train_data_info_xml(annotations_path)
 
@@ -78,7 +78,8 @@ def resize_image_boundingbox(read_path, write_path, bounding_box, size):
     resize_img = cv2.resize(img, (size, size))
     resized_mask = cv2.resize(create_mask(bounding_box, img), (size, size))
     new_path = str(write_path/read_path.parts[-1])
-    cv2.imwrite(new_path, cv2.cvtColor(resize_img, cv2.COLOR_RGB2GRAY))
+    # cv2.imwrite(new_path, cv2.cvtColor(resize_img, cv2.COLOR_RGB2GRAY))
+    cv2.imwrite(new_path, cv2.cvtColor(resize_img, cv2.COLOR_RGB2BGR))
     return mask_to_boundingbox(resized_mask)
 
 new_boundingboxes = []
