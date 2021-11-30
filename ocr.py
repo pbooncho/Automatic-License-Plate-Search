@@ -36,22 +36,26 @@ def main():
     fixed_x_test = np.zeros((1,28,28))
     fixed_y_test = np.zeros(length1)
     for i in range(length1):
-        if y_train[i] < 36:
+        if y_test[i] < 36:
             np.append(fixed_x_test, x_test[i][:][:])
             np.append(fixed_y_test, y_test[i])
     
+    fixed_x_train = fixed_x_train[1:][:][:]
+    fixed_y_train = fixed_y_train[1:]
+
+    fixed_x_test = fixed_x_test[1:][:][:]
+    fixed_y_test = fixed_y_test[1:]
+
+    print(fixed_x_train.shape)
+    print(fixed_y_train.shape)
+    print(fixed_x_test.shape)
+    print(fixed_y_test.shape)
     model = tf.keras.models.Sequential([
     Flatten(),
     Dense(72,activation="relu"), 
     Dropout(0.36),
     Dense(36,activation="softmax")
     ])
-
-    fixed_x_train = fixed_x_train[1:][:][:]
-    fixed_y_train = fixed_y_train[1:]
-
-    fixed_x_test = fixed_x_test[1:][:][:]
-    fixed_y_test = fixed_y_test[1:]
 
     predictions = model(fixed_x_train[:1]).numpy()
     tf.nn.softmax(predictions).numpy()
