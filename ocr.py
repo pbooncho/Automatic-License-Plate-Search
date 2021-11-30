@@ -15,15 +15,33 @@ def main():
     x_train = x_train.astype('float32')/255
     x_test = x_test.astype('float32')/255
 
-    #print(type(y_train))
-    #print(x_train)
-    #print(y_train)
-    print(x_train.labels())
+    x_shape = x_train.shape[1]
+    y_shape = y_train.shape[0]
+    print(x_train.shape)
+    print(y_train.shape)
+    fixed_x_train = np.zeros(x_shape,1)
+    fixed_y_train = np.zeros(y_shape)
+    for i in range(len(y_train)):
+        if y_train[i] < 37:
+            if y_train[i] == 0:
+                print("fix")
+            np.append(fixed_x_train, x_train[:][i])
+            np.append(fixed_y_train, y_train[i])
+    
 
-
-
-
-
+    x1_shape = x_test.shape[1]
+    y1_shape = y_test.shape[0]
+    print(x_test.shape)
+    print(y_test.shape)
+    fixed_x_test = np.zeros(x1_shape,1)
+    fixed_y_test = np.zeros(y1_shape)
+    for i in range(len(y_test)):
+        if y_train[i] < 37:
+            if y_train[i] == 0:
+                print("fix")
+            np.append(fixed_x_test, x_test[:][i])
+            np.append(fixed_y_test, y_test[i])
+    
     model = tf.keras.models.Sequential([
     Flatten(),
     Dense(72,activation="relu"), 
