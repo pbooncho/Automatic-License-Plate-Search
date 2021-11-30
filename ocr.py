@@ -15,7 +15,9 @@ def main():
     x_train = x_train.astype('float32')/255
     x_test = x_test.astype('float32')/255
 
-    print(y_train.type())
+    print(type(y_train))
+    print(x_train)
+    print(y_train)
 
     model = tf.keras.models.Sequential([
     Flatten(),
