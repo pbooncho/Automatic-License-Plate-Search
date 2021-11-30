@@ -21,20 +21,22 @@ def main():
     print(y_train.shape)
     length = y_train.shape[0]
     fixed_x_train = np.zeros((1,28,28))
-    fixed_y_train = np.zeros(length)
+    fixed_y_train = np.zeros(1)
     for i in range(length):
         if y_train[i] == 62:
             print("fix????")
         if y_train[i] < 36:
+            print("THIS IS HAPPENING?")
             np.append(fixed_x_train, x_train[i][:][:])
             np.append(fixed_y_train, y_train[i])
+            print(fixed_x_train.shape)
     
 
     length1 = y_test.shape[0]
     print(x_test.shape)
     print(y_test.shape)
     fixed_x_test = np.zeros((1,28,28))
-    fixed_y_test = np.zeros(length1)
+    fixed_y_test = np.zeros(1)
     for i in range(length1):
         if y_test[i] < 36:
             np.append(fixed_x_test, x_test[i][:][:])
