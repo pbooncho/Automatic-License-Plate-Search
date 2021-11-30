@@ -23,7 +23,7 @@ def main():
     fixed_x_train = np.zeros((1,28,28))
     fixed_y_train = np.zeros(length)
     for i in range(length):
-        if y_train[i] == 46:
+        if y_train[i] == 62:
             print("fix????")
         if y_train[i] < 36:
             np.append(fixed_x_train, x_train[:][i])
