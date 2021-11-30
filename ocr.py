@@ -23,9 +23,9 @@ def main():
     fixed_x_train = np.zeros((length,28,28))
     fixed_y_train = np.zeros(length)
     for i in range(length):
+        if y_train[i] == 46:
+            print("fix????")
         if y_train[i] < 36:
-            if y_train[i] == 0:
-                print("fix")
             np.append(fixed_x_train, x_train[:][i])
             np.append(fixed_y_train, y_train[i])
     
@@ -37,8 +37,6 @@ def main():
     fixed_y_test = np.zeros(length1,1)
     for i in range(length1):
         if y_train[i] < 36:
-            if y_train[i] == 0:
-                print("fix")
             np.append(fixed_x_test, x_test[:][i])
             np.append(fixed_y_test, y_test[i])
     
