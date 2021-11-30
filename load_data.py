@@ -5,6 +5,7 @@ import numpy as np
 import random
 import cv2
 import matplotlib.pyplot as plt
+import csv
 
 images_path = Path("raw_data/dataset1/images")
 annotations_path = Path("raw_data/dataset1/annotations")
@@ -13,7 +14,7 @@ def filelist(root, file_type):
     return [os.path.join(directory_path, f) for directory_path, directory_name, 
             files in os.walk(root) for f in files if f.endswith(file_type)]
 
-def get_train_data_info(annotations_path):
+def get_train_data_info_xml(annotations_path):
     annotations = filelist(annotations_path, '.xml')
     annotations_list = []
     for path in annotations:
@@ -31,7 +32,23 @@ def get_train_data_info(annotations_path):
     sorted = annotations_list[np.argsort(annotations_list[:, 0])]
     return sorted
 
-train_data = get_train_data_info(annotations_path)
+csv_annotations_paths = [Path("raw_data/dataset2/annotations.csv"), Path("raw_data/dataset3/annotations.csv"), Path("raw_data/dataset4/annotations.csv")]
+def get_train_data_info_csv(annotations_paths):
+    data = []
+    for path in annotations_paths:
+        with open(path) as csvfile:
+            reader = csv.reader(csvfile, delimiter=',')
+            next(reader)
+            for row in reader:
+                if row[3] == 'license-plate':
+                    r = []
+                    for item in row:
+                        r.append(item)
+                    data.append(r)
+    return data
+csv_train_data = np.array(get_train_data_info_csv(csv_annotations_paths))
+
+train_data = get_train_data_info_xml(annotations_path)
 
 def read_img(path):
     return cv2.cvtColor(cv2.imread(str(path)), cv2.COLOR_BGR2RGB)
@@ -144,6 +161,11 @@ def show_corner_bb(im, bb):
     plt.imshow(im)
     plt.gca().add_patch(create_corner_rect(bb))
     plt.show()
+
+
+###################
+## EXPORT RESULT ##
+###################
 
 # sample_img_num = 400
 # read_path = Path(str(path) + '/Cars' + str(train_data[sample_img_num][0]) + '.png')
