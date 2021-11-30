@@ -22,15 +22,13 @@ def main():
     length = y_train.shape[0]
     fixed_x_train = np.zeros((1,28,28))
     fixed_y_train = np.zeros(1)
+    print("separating first")
     for i in range(length):
-        if y_train[i] == 62:
-            print("fix????")
         if y_train[i] < 36:
-            print("THIS IS HAPPENING?")
-            np.append(fixed_x_train, x_train[i][:][:])
-            np.append(fixed_y_train, y_train[i])
-            print(fixed_x_train.shape)
+            fixed_x_train = np.append(fixed_x_train, x_train[i][:][:])
+            fixed_y_train = np.append(fixed_y_train, y_train[i])
     
+    print("separating second")
 
     length1 = y_test.shape[0]
     print(x_test.shape)
@@ -39,8 +37,8 @@ def main():
     fixed_y_test = np.zeros(1)
     for i in range(length1):
         if y_test[i] < 36:
-            np.append(fixed_x_test, x_test[i][:][:])
-            np.append(fixed_y_test, y_test[i])
+            fixed_x_test = np.append(fixed_x_test, x_test[i][:][:])
+            fixed_y_test = np.append(fixed_y_test, y_test[i])
     
     fixed_x_train = fixed_x_train[1:][:][:]
     fixed_y_train = fixed_y_train[1:]
