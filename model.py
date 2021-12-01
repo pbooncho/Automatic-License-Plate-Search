@@ -24,7 +24,9 @@ def create_model(rows):
         
         (filename, startX, startY, endX, endY) = row
         image = imread(".\preprocessed_data\dataset1/resized_images/Cars" + str(int(filename)) + ".png")
+=======
         image = imread("preprocessed_data/dataset1/resized_images/Cars" + str(int(filename)) + ".png")
+>>>>>>> mikey
         h = img_size
         w = img_size
         #print(image)
