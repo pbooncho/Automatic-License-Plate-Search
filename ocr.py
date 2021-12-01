@@ -69,8 +69,8 @@ def main():
     Dense(36,activation="softmax")
     ])
 
-    predictions = model(fixed_x_train[:1])#.numpy()
-    tf.nn.softmax(predictions)#.numpy()
+    predictions = model(fixed_x_train).numpy()
+    tf.nn.softmax(predictions).numpy()
     loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
     model.compile(optimizer='adam',
