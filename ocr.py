@@ -25,7 +25,7 @@ def main():
     fixed_x_train = [[[]]]
     fixed_y_train = []
     print("separating first")
-    for i in range(length):
+    for i in range(10000):
         if y_train[i] < 36:
             #fixed_x_train = np.append(fixed_x_train, x_train[i][:][:])
             #fixed_y_train = np.append(fixed_y_train, y_train[i])
@@ -40,7 +40,7 @@ def main():
     print(y_test.shape)
     fixed_x_test = [[[]]]
     fixed_y_test = []
-    for i in range(length1):
+    for i in range(1000):
         if y_test[i] < 36:
             #fixed_x_test = np.append(fixed_x_test, x_test[i][:][:])
             #fixed_y_test = np.append(fixed_y_test, y_test[i])
@@ -69,8 +69,8 @@ def main():
     Dense(36,activation="softmax")
     ])
 
-    predictions = model(fixed_x_train[:1]).numpy()
-    tf.nn.softmax(predictions).numpy()
+    predictions = model(fixed_x_train[:1])#.numpy()
+    tf.nn.softmax(predictions)#.numpy()
     loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
     model.compile(optimizer='adam',
