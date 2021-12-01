@@ -31,6 +31,7 @@ def main():
             #fixed_y_train = np.append(fixed_y_train, y_train[i])
             fixed_x_train = fixed_x_train + [x_train[i][:][:]]
             fixed_y_train = fixed_y_train + [y_train[i]]
+        print(i)
     
     print("separating second")
 
