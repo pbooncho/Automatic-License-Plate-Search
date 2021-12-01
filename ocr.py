@@ -19,8 +19,8 @@ def main():
 
     #x_shape = x_train.shape[1]
     #y_shape = y_train.shape[0]
-    print(x_train.shape)
-    print(y_train.shape)
+    #print(x_train.shape)
+    #print(y_train.shape)
     length = y_train.shape[0]
     fixed_x_train = [[[]]]
     fixed_y_train = []
@@ -33,11 +33,11 @@ def main():
             fixed_y_train = fixed_y_train + [y_train[i]]
         print(i)
     
-    print("separating second")
+    #print("separating second")
 
     length1 = y_test.shape[0]
-    print(x_test.shape)
-    print(y_test.shape)
+    #print(x_test.shape)
+    #print(y_test.shape)
     fixed_x_test = [[[]]]
     fixed_y_test = []
     for i in range(1000):
