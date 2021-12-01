@@ -1,8 +1,3 @@
-
-from http.client import IncompleteRead
-import tensorflow as tf
-from tensorflow.keras.layers import \
-    Conv2D, MaxPool2D, Dropout, Flatten, Dense
 from tensorflow.keras.applications import VGG16
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dense
@@ -19,7 +14,8 @@ import csv
 
 
 def create_model(rows):
-    data = np.empty((0,512,512,3))
+    img_size = 224
+    data = np.empty((0,img_size,img_size,3))
     targets = np.empty((0,4))
     filenames = np.array([])
 
@@ -28,8 +24,8 @@ def create_model(rows):
         
         (filename, startX, startY, endX, endY) = row
         image = imread(".\preprocessed_data\dataset1/resized_images/Cars" + str(int(filename)) + ".png")
-        h = 512
-        w = 512
+        h = img_size
+        w = img_size
         #print(image)
         startX = float(startX) / w
         startY = float(startY) / h
@@ -55,7 +51,7 @@ def create_model(rows):
     (trainTargets, testTargets) = split[2:4]
 #    (trainFilenames, testFilenames) = split[4:]
 
-    vgg = VGG16(weights="imagenet", include_top=False, input_tensor=Input(shape=(512, 512, 3)))
+    vgg = VGG16(weights="imagenet", include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 # freeze all VGG layers so they will *not* be updated during the
 # training process
     vgg.trainable = False
