@@ -23,6 +23,7 @@ def create_model(rows):
         
         
         (filename, startX, startY, endX, endY) = row
+<<<<<<< HEAD
         image = imread(".\preprocessed_data\dataset1/resized_images/Cars" + str(int(filename)) + ".png")
 =======
         image = imread("preprocessed_data/dataset1/resized_images/Cars" + str(int(filename)) + ".png")
