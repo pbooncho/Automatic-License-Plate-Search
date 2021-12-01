@@ -58,10 +58,10 @@ def main():
     #fixed_x_test = fixed_x_test[1:][:][:]
     #fixed_y_test = fixed_y_test[1:]
 
-    print(fixed_x_train.shape)
-    print(fixed_y_train.shape)
-    print(fixed_x_test.shape)
-    print(fixed_y_test.shape)
+    #print(fixed_x_train.shape)
+    #print(fixed_y_train.shape)
+    #print(fixed_x_test.shape)
+    #print(fixed_y_test.shape)
     model = tf.keras.models.Sequential([
     Flatten(),
     Dense(72,activation="relu"), 
