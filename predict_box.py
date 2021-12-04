@@ -26,7 +26,7 @@ def predict_image(image_path, model):
 for i in range(433):
     path = "preprocessed_data/dataset1/resized_images/Cars" + str(i) + ".png"
     [x1,x2,x3,x4,x5] = predict_image(path, my_model)
-    image = imread(image_path)
+    image = imread(path)
     new_image = image[x2:x4, x3:x5, :]
     plt.imsave("licenses/license" + str(i) + ".png", new_image)
     
