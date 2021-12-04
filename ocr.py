@@ -83,7 +83,7 @@ def train():
     model.compile(optimizer='adam',
               loss=loss_fn,
               metrics=['accuracy'])
-    model.fit(fixed_x_train, fixed_y_train, epochs=100)
+    model.fit(fixed_x_train, fixed_y_train, epochs=25)
     # loss, acc = model.evaluate(fixed_x_test, fixed_y_test, verbose=2)
     # print("Trained model, accuracy: {:5.2f}%".format(100 * acc))
 
