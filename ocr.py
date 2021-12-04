@@ -25,7 +25,7 @@ def train():
     # print(len(fixed_x_train))
     # print(len(fixed_y_train))
     print("separating first")
-    for i in range(10000):
+    for i in range(20000):
         if y_train[i] < 36:
             #fixed_x_train = np.append(fixed_x_train, x_train[i][:][:])
             #fixed_y_train = np.append(fixed_y_train, y_train[i])
@@ -69,6 +69,8 @@ def train():
     #print(fixed_y_test.shape)
     model = tf.keras.models.Sequential([
     Flatten(),
+    Dense(144, activation="relu"),
+    Dropout(0.36),
     Dense(72,activation="relu"), 
     Dropout(0.36),
     Dense(36,activation="softmax")
