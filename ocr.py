@@ -41,6 +41,8 @@ def train():
 
     model = tf.keras.models.Sequential([
     Flatten(),
+    Dense(1152, activation="relu"),
+    Dropout(0.36),
     Dense(576, activation="relu"),
     Dropout(0.36),
     Dense(288, activation="relu"),
