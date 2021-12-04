@@ -70,7 +70,7 @@ def main():
     ])
 
     predictions = model(fixed_x_train).numpy()
-    tf.nn.softmax(predictions).numpy()
+    #tf.nn.softmax(predictions).numpy()
     loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
     model.compile(optimizer='adam',
@@ -79,7 +79,7 @@ def main():
     model.fit(fixed_x_train, fixed_y_train, epochs=100)
     model.save("ocr_model", save_format="h5")
 
-    #model.evaluate(fixed_x_test,  fixed_y_test, verbose=2)
+    model.evaluate(fixed_x_test,  fixed_y_test, verbose=2)
 
 main()
 
