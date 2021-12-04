@@ -50,15 +50,17 @@ def train():
             fixed_x_test = fixed_x_test + [x_test[i][:][:]]
             fixed_y_test = fixed_y_test + [y_test[i]]
     
-    #fixed_x_train = fixed_x_train[1:][:][:]
+    fixed_x_train = fixed_x_train[1:][:][:]
+    fixed_x_test = fixed_x_test[1:][:][:]
     #fixed_y_train = fixed_y_train[1:]
+
     fixed_x_train = tf.convert_to_tensor(fixed_x_train)
     fixed_y_train = tf.convert_to_tensor(fixed_y_train)
 
     fixed_x_test = tf.convert_to_tensor(fixed_x_test)
     fixed_y_test = tf.convert_to_tensor(fixed_y_test)
 
-    #fixed_x_test = fixed_x_test[1:][:][:]
+
     #fixed_y_test = fixed_y_test[1:]
 
     #print(fixed_x_train.shape)
