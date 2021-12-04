@@ -9,13 +9,11 @@ from tensorflow.keras.layers import \
 from extra_keras_datasets import emnist
 #(input_train, target_train), (input_test, target_test) = emnist.load_data(type='bymerge')
 
-def main():
+def train():
     (x_train, y_train), (x_test, y_test) = emnist.load_data(type='byclass')
 
     x_train = x_train.astype('float32')/255
     x_test = x_test.astype('float32')/255
-
-
 
     #x_shape = x_train.shape[1]
     #y_shape = y_train.shape[0]
@@ -49,11 +47,11 @@ def main():
     
     #fixed_x_train = fixed_x_train[1:][:][:]
     #fixed_y_train = fixed_y_train[1:]
-    #fixed_x_train = np.array(fixed_x_train)
-    fixed_y_train = np.array(fixed_y_train)
+    fixed_x_train = tf.convert_to_tensor(fixed_x_train)
+    fixed_y_train = tf.convert_to_tensor(fixed_y_train)
 
-    fixed_x_test = np.array(fixed_x_test)
-    fixed_y_test = np.array(fixed_y_test)
+    fixed_x_test = tf.convert_to_tensor(fixed_x_test)
+    fixed_y_test = tf.convert_to_tensor(fixed_y_test)
 
     #fixed_x_test = fixed_x_test[1:][:][:]
     #fixed_y_test = fixed_y_test[1:]
@@ -77,11 +75,20 @@ def main():
               loss=loss_fn,
               metrics=['accuracy'])
     model.fit(fixed_x_train, fixed_y_train, epochs=100)
+    # loss, acc = model.evaluate(fixed_x_test, fixed_y_test, verbose=2)
+    # print("Trained model, accuracy: {:5.2f}%".format(100 * acc))
+
     model.save("ocr_model", save_format="h5")
 
-    #model.evaluate(fixed_x_test,  fixed_y_test, verbose=2)
+    model.evaluate(fixed_x_test,  fixed_y_test, verbose=2)
+    model.summary()
 
-main()
+def predict(images):
+    pass
+
+
+
+train()
 
 
 
