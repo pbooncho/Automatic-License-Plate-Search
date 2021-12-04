@@ -43,7 +43,7 @@ def train():
     #print(y_test.shape)
     fixed_x_test = [[[]]]
     fixed_y_test = []
-    for i in range(1000):
+    for i in range(2000):
         if y_test[i] < 36:
             #fixed_x_test = np.append(fixed_x_test, x_test[i][:][:])
             #fixed_y_test = np.append(fixed_y_test, y_test[i])
@@ -69,6 +69,8 @@ def train():
     #print(fixed_y_test.shape)
     model = tf.keras.models.Sequential([
     Flatten(),
+    Dense(288, activation="relu"),
+    Dropout(0.36),
     Dense(144, activation="relu"),
     Dropout(0.36),
     Dense(72,activation="relu"), 
