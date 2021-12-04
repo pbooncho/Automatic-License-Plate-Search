@@ -22,8 +22,8 @@ def train():
     length = y_train.shape[0]
     fixed_x_train = [[[]]]
     fixed_y_train = []
-    print(len(fixed_x_train))
-    print(len(fixed_y_train))
+    # print(len(fixed_x_train))
+    # print(len(fixed_y_train))
     print("separating first")
     for i in range(10000):
         if y_train[i] < 36:
@@ -31,9 +31,9 @@ def train():
             #fixed_y_train = np.append(fixed_y_train, y_train[i])
             fixed_x_train = fixed_x_train + [x_train[i][:][:]]
             fixed_y_train = fixed_y_train + [y_train[i]]
-            if (len(fixed_x_train) != len(fixed_y_train)):
-                print("Error:")
-                print(i)
+            # if (len(fixed_x_train) != len(fixed_y_train)):
+            #     print("Error:")
+            #     print(i)
         #print(i)
     
     #print("separating second")
