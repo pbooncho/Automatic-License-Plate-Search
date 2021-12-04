@@ -1,6 +1,7 @@
 from tensorflow.keras.models import load_model
 import numpy as np
 from skimage.io import imread
+import matplotlib.pyplot as plt
 
 my_model = load_model("my_model")
 
@@ -21,4 +22,9 @@ def predict_image(image_path, model):
     endX = int(endX * w)
     endY = int(endY * h)
     return [image_path, startX, startY, endX, endY]
+
+for i in range(433):
+    image = imread(
+
+
     
