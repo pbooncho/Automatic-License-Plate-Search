@@ -15,44 +15,23 @@ def train():
     x_train = x_train.astype('float32')/255
     x_test = x_test.astype('float32')/255
 
-    #x_shape = x_train.shape[1]
-    #y_shape = y_train.shape[0]
-    #print(x_train.shape)
-    #print(y_train.shape)
-    length = y_train.shape[0]
     fixed_x_train = [[[]]]
     fixed_y_train = []
-    # print(len(fixed_x_train))
-    # print(len(fixed_y_train))
-    print("separating first")
-    for i in range(100000):
+    
+    for i in x_train.shape[0]:
         if y_train[i] < 36:
-            #fixed_x_train = np.append(fixed_x_train, x_train[i][:][:])
-            #fixed_y_train = np.append(fixed_y_train, y_train[i])
             fixed_x_train = fixed_x_train + [x_train[i][:][:]]
             fixed_y_train = fixed_y_train + [y_train[i]]
-            # if (len(fixed_x_train) != len(fixed_y_train)):
-            #     print("Error:")
-            #     print(i)
-        #print(i)
-    
-    #print("separating second")
 
-    length1 = y_test.shape[0]
-    #print(x_test.shape)
-    #print(y_test.shape)
     fixed_x_test = [[[]]]
     fixed_y_test = []
-    for i in range(2000):
+    for i in x_train.shape[0]:
         if y_test[i] < 36:
-            #fixed_x_test = np.append(fixed_x_test, x_test[i][:][:])
-            #fixed_y_test = np.append(fixed_y_test, y_test[i])
             fixed_x_test = fixed_x_test + [x_test[i][:][:]]
             fixed_y_test = fixed_y_test + [y_test[i]]
     
     fixed_x_train = fixed_x_train[1:][:][:]
     fixed_x_test = fixed_x_test[1:][:][:]
-    #fixed_y_train = fixed_y_train[1:]
 
     fixed_x_train = tf.convert_to_tensor(fixed_x_train)
     fixed_y_train = tf.convert_to_tensor(fixed_y_train)
@@ -60,13 +39,6 @@ def train():
     fixed_x_test = tf.convert_to_tensor(fixed_x_test)
     fixed_y_test = tf.convert_to_tensor(fixed_y_test)
 
-
-    #fixed_y_test = fixed_y_test[1:]
-
-    #print(fixed_x_train.shape)
-    #print(fixed_y_train.shape)
-    #print(fixed_x_test.shape)
-    #print(fixed_y_test.shape)
     model = tf.keras.models.Sequential([
     Flatten(),
     Dense(576, activation="relu"),
@@ -81,7 +53,6 @@ def train():
     ])
 
     predictions = model(fixed_x_train).numpy()
-    #tf.nn.softmax(predictions).numpy()
     loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
     model.compile(optimizer='adam',
@@ -97,10 +68,8 @@ def train():
     model.summary()
 
 def predict(images):
-
-    pass
-
-
+    model = tf.keras.models.load_model("ocr_model")
+    return model.predict(images)
 
 train()
 
@@ -109,10 +78,10 @@ train()
 # def main():
 #     model = VGGModel()
 
-#     checkpoint_path = "checkpoints" + os.sep + \
-#             "vgg_model" + os.sep + timestamp + os.sep
-#         logs_path = "logs" + os.sep + "vgg_model" + \
-#             os.sep + timestamp + os.sep
+#     # checkpoint_path = "checkpoints" + os.sep + \
+#     #         "vgg_model" + os.sep + timestamp + os.sep
+#     #     logs_path = "logs" + os.sep + "vgg_model" + \
+#     #         os.sep + timestamp + os.sep
     
 #     # Print summaries for both parts of the model
 #         model.vgg16.summary()
