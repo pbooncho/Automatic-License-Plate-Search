@@ -1,6 +1,7 @@
 from tensorflow.keras.models import load_model
 import numpy as np
 from skimage.io import imread
+import matplotlib.pyplot as plt
 
 from PIL import Image
 
