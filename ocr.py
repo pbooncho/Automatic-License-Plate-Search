@@ -18,14 +18,14 @@ def train():
     fixed_x_train = [[[]]]
     fixed_y_train = []
     
-    for i in range(x_train.shape[0]):
+    for i in range(x_train.shape()[0]):
         if y_train[i] < 36:
             fixed_x_train = fixed_x_train + [x_train[i][:][:]]
             fixed_y_train = fixed_y_train + [y_train[i]]
 
     fixed_x_test = [[[]]]
     fixed_y_test = []
-    for i in range(x_train.shape[0]):
+    for i in range(x_train.shape()[0]):
         if y_test[i] < 36:
             fixed_x_test = fixed_x_test + [x_test[i][:][:]]
             fixed_y_test = fixed_y_test + [y_test[i]]
