@@ -32,21 +32,19 @@ def get_train_data_info_xml(annotations_path):
     sorted = annotations_list[np.argsort(annotations_list[:, 0])]
     return sorted
 
-# csv_annotations_paths = [Path("raw_data/dataset2/annotations.csv"), Path("raw_data/dataset3/annotations.csv"), Path("raw_data/dataset4/annotations.csv")]
-# def get_train_data_info_csv(annotations_paths):
-#     data = []
-#     for path in annotations_paths:
-#         with open(path) as csvfile:
-#             reader = csv.reader(csvfile, delimiter=',')
-#             next(reader)
-#             for row in reader:
-#                 if row[3] == 'license-plate':
-#                     r = []
-#                     for item in row:
-#                         r.append(item)
-#                     data.append(r)
-#     return data
-# csv_train_data = np.array(get_train_data_info_csv(csv_annotations_paths))
+def get_train_data_info_csv(annotations_paths):
+    data = []
+    for path in annotations_paths:
+        with open(path) as csvfile:
+            reader = csv.reader(csvfile, delimiter=',')
+            next(reader)
+            for row in reader:
+                if row[3] == 'license-plate':
+                    r = []
+                    for item in row:
+                        r.append(item)
+                    data.append(r)
+    return data
 
 train_data = get_train_data_info_xml(annotations_path)
 
@@ -73,6 +71,9 @@ def create_boundingbox_array(data_row):
     # [y_min y_max, x_min, x_max]
     return np.array([data_row[4], data_row[3], data_row[6], data_row[5]])
 
+def create_boundingbox_array_csv(data_row):
+    return np.array([data_row[5], data_row[4], data_row[7], data_row[6]])
+
 def resize_image_boundingbox(read_path, write_path, bounding_box, size):
     img = read_img(read_path)
     resize_img = cv2.resize(img, (size, size))
@@ -82,9 +83,18 @@ def resize_image_boundingbox(read_path, write_path, bounding_box, size):
     cv2.imwrite(new_path, cv2.cvtColor(resize_img, cv2.COLOR_RGB2BGR))
     return mask_to_boundingbox(resized_mask)
 
+def resize_image_boundingbox_csv(read_path, write_path, bounding_box, size, index):
+    img = read_img(read_path)
+    resize_img = cv2.resize(img, (size, size))
+    resized_mask = cv2.resize(create_mask(bounding_box, img), (size, size))
+    new_path = write_path + '/Cars' + index + '.png'
+    # new_path = str(write_path/read_path.parts[-1])
+    cv2.imwrite(new_path, cv2.cvtColor(resize_img, cv2.COLOR_RGB2BGR))
+    return mask_to_boundingbox(resized_mask)
+
 new_boundingboxes = []
 
-path = "preprocessed_data/dataset1/resized_images"
+path = "preprocessed_data/resized_images"
 isExist = os.path.exists(path)
 if not isExist:
     os.makedirs(path)
@@ -96,6 +106,26 @@ for img_info in train_data:
 
     new_boundingboxes.append(new_boundingbox)
 train_data = np.hstack((train_data, new_boundingboxes))
+
+csv_annotations_paths = [Path("raw_data/dataset2/annotations.csv"), Path("raw_data/dataset3/annotations.csv"), Path("raw_data/dataset4/annotations.csv")]
+csv_train_data = np.array(get_train_data_info_csv(csv_annotations_paths))
+csv_images = filelist(Path("raw_data/dataset2"), '.jpg') + filelist(Path("raw_data/dataset3"), '.jpg') + filelist(Path("raw_data/dataset4"), '.jpg')
+
+def find_csv_read_path(image_file, full_paths):
+    for path in full_paths:
+        if image_file in path:
+            return path
+    return None
+
+new_boundingboxes = []
+index = 433
+for img_info in csv_train_data:
+    read_path = Path(find_csv_read_path(img_info[0], csv_images))
+    new_boundingbox = resize_image_boundingbox_csv(read_path, resized_data_path, create_boundingbox_array_csv(img_info), 224, index)
+    index += 1
+    new_boundingboxes.append(new_boundingbox)
+csv_train_data = np.hstack((csv_train_data, new_boundingboxes))
+
 
 
 #######################
