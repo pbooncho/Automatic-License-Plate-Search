@@ -72,7 +72,7 @@ def create_boundingbox_array(data_row):
     return np.array([data_row[4], data_row[3], data_row[6], data_row[5]])
 
 def create_boundingbox_array_csv(data_row):
-    return np.array([data_row[5], data_row[4], data_row[7], data_row[6]])
+    return np.array([int(data_row[5]), int(data_row[4]), int(data_row[7]), int(data_row[6])])
 
 def resize_image_boundingbox(read_path, write_path, bounding_box, size):
     img = read_img(read_path)
@@ -87,7 +87,7 @@ def resize_image_boundingbox_csv(read_path, write_path, bounding_box, size, inde
     img = read_img(read_path)
     resize_img = cv2.resize(img, (size, size))
     resized_mask = cv2.resize(create_mask(bounding_box, img), (size, size))
-    new_path = write_path + '/Cars' + index + '.png'
+    new_path = str(write_path) + '/Cars' + str(index) + '.png'
     # new_path = str(write_path/read_path.parts[-1])
     cv2.imwrite(new_path, cv2.cvtColor(resize_img, cv2.COLOR_RGB2BGR))
     return mask_to_boundingbox(resized_mask)
@@ -118,14 +118,15 @@ def find_csv_read_path(image_file, full_paths):
     return None
 
 new_boundingboxes = []
-index = 433
+index = train_data.shape[0]
 for img_info in csv_train_data:
     read_path = Path(find_csv_read_path(img_info[0], csv_images))
     new_boundingbox = resize_image_boundingbox_csv(read_path, resized_data_path, create_boundingbox_array_csv(img_info), 224, index)
     index += 1
     new_boundingboxes.append(new_boundingbox)
 csv_train_data = np.hstack((csv_train_data, new_boundingboxes))
-
+index_array = np.arange(train_data.shape[0], index).reshape(index - train_data.shape[0], 1)
+csv_train_data = np.hstack((index_array, csv_train_data))
 
 
 #######################
@@ -207,8 +208,24 @@ def show_corner_bb(im, bb):
 # im, bb = transformsXY(str(read_path), train_data[sample_img_num][7:], True)
 # show_corner_bb(im, bb)
 
+# sample_img_num = 200
+# read_path = Path(find_csv_read_path(csv_train_data[sample_img_num][0], csv_images))
+# im = cv2.imread(str(read_path))
+# im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+# show_corner_bb(im, csv_train_data[sample_img_num][9:])
+
+# im, bb = transformsXY(str(read_path), csv_train_data[sample_img_num][9:], True)
+# show_corner_bb(im, bb)
+
 output = np.hstack((np.reshape(train_data[:, 0], (train_data.shape[0], 1)), train_data[:, 7:]))
-np.savetxt('boundingbox.csv', output, delimiter=',', fmt='%d')
+
+output2 = np.delete(csv_train_data, 1, 1)
+output2 = np.delete(output2, 3, 1)
+output2 = output2.astype(np.int)
+output2 = np.hstack((np.reshape(output2[:, 0], (output2.shape[0], 1)), output2[:, 7:]))
+
+total_output = np.vstack((output, output2))
+np.savetxt('boundingbox.csv', total_output, delimiter=',', fmt='%d')
 
 
 
