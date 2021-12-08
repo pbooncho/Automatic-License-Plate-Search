@@ -11,18 +11,20 @@ def segmentImage(image):
     blurred = skimage.filters.gaussian(binarized)
 
     # find histograms of horizontal lines, and if above certain threshold, determine upper/lower bounds of characters
-    vertical_threshold = ????
+    vertical_threshold = 0.5
     row_histograms = np.sum(image,axis=1)
     top_border, bottom_border = np.nonzero(row_histograms > vertical_threshold)[0][[0,-1]]
 
 
     # find histograms of vertical lines, if above threshold you find regions separating individual characters. 
 
-    horizontal_threshold = ????
-    column_histograms = np.sum(image,axis=0)
+    horizontal_threshold = 0.5
+    column_histograms = np.sum(image, axis=0)
     vertical_boundaries = np.nonzero(column_histograms > horizontal_threshold)[0]
     # separate regions into individual sections and return. 
 
-    # return subimages? or just the boundaries and process outside?
-
-
+    subImages = []
+    for i in range(len(vertical_boundaries) - 1):
+        subImage = image[vertical_boundaries[i]:vertical_boundaries[i+1], top_border: bottom_border]
+        subImages.append(subImage)
+    return subImages
