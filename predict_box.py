@@ -23,10 +23,18 @@ def predict_image(image_path, model):
         startY2 = startY
         startY = endY
         endY = startY2
-
     
     w = 224
     h = 224
+    
+    if startX < 0:
+        startX = 0
+    if startY < 0:
+        startY = 0
+    if endX > w:
+        startX = w
+    if endY > h:
+        startY = h
     
     startX = int(startX * w)
     startY = int(startY * h)
@@ -41,7 +49,7 @@ def calculate_rough_accuracy():
     rows = np.loadtxt(file, delimiter=",")
     #print(rows)
     total = 0
-    for i in range(400):
+    for i in range(888):
         image_path = "preprocessed_data/resized_images/Cars" + str(i) + ".png"
         [a,b,c,d,e] = predict_image(image_path,my_model)
         row = rows[i]
@@ -52,12 +60,12 @@ def calculate_rough_accuracy():
         if (abs(b - row[1]) <= 0.2*w) and (abs(d - row[3]) <= 0.2*w) and (abs(c - row[2]) <= 0.2*h) and (abs(e - row[4]) <= 0.2*h):
             total += 1
         print(i)
-    print("Accuracy = " + str(total / 400))
+    print("Accuracy = " + str(total / 888))
               
 
    
    
-for i in range(433):
+for i in range(888):
     path = "preprocessed_data/resized_images/Cars" + str(i) + ".png"
     [x1,x2,x3,x4,x5] = predict_image(path, my_model)
     image = imread(path)
