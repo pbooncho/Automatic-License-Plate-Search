@@ -25,5 +25,5 @@ for index, row in enumerate(license_plates_bounding_points):
     segmented_plates = map(lambda subIm: segmentImage(image[subIm[1]:subIm[3],subIm[0]:subIm[2]), license_plates_bounding_points)
 
     for plate_nums in segmented_plates:
-        all_nums = predict(plate_nums)
+        all_nums = predict(np.array(plate_nums))
 
