@@ -23,10 +23,18 @@ def predict_image(image_path, model):
         startY2 = startY
         startY = endY
         endY = startY2
-
     
     w = 224
     h = 224
+    
+    if startX < 0:
+        startX = 0
+    if startY < 0:
+        startY = 0
+    if endX > w:
+        startX = w
+    if endY > h:
+        startY = h
     
     startX = int(startX * w)
     startY = int(startY * h)
