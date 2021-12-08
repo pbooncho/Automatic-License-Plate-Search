@@ -1,8 +1,13 @@
 import numpy as np
+from load_data import preprocessing
 from model import create_model
 from ocr import train, predict
 from segmentation import segmentImage
+
 import tensorflow as tf 
+
+preprocessing()
+
 file = open("boundingbox.csv")
 rows = np.loadtxt(file, delimiter=",")
 # use saved weights for ocr model
