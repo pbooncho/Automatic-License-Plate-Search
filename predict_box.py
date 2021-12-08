@@ -42,7 +42,7 @@ def calculate_rough_accuracy():
     #print(rows)
     total = 0
     for i in range(400):
-        image_path = "preprocessed_data/dataset1/resized_images/Cars" + str(i) + ".png"
+        image_path = "preprocessed_data/resized_images/Cars" + str(i) + ".png"
         [a,b,c,d,e] = predict_image(image_path,my_model)
         row = rows[i]
         
@@ -58,7 +58,7 @@ def calculate_rough_accuracy():
    
    
 for i in range(433):
-    path = "preprocessed_data/dataset1/resized_images/Cars" + str(i) + ".png"
+    path = "preprocessed_data/resized_images/Cars" + str(i) + ".png"
     [x1,x2,x3,x4,x5] = predict_image(path, my_model)
     image = imread(path)
     new_image = image[x2:x4, x3:x5, :]
