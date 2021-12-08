@@ -7,9 +7,6 @@ import cv2
 import matplotlib.pyplot as plt
 import csv
 
-images_path = Path("raw_data/dataset1/images")
-annotations_path = Path("raw_data/dataset1/annotations")
-
 def filelist(root, file_type):
     return [os.path.join(directory_path, f) for directory_path, directory_name, 
             files in os.walk(root) for f in files if f.endswith(file_type)]
@@ -45,8 +42,6 @@ def get_train_data_info_csv(annotations_paths):
                         r.append(item)
                     data.append(r)
     return data
-
-train_data = get_train_data_info_xml(annotations_path)
 
 def read_img(path):
     return cv2.cvtColor(cv2.imread(str(path)), cv2.COLOR_BGR2RGB)
@@ -92,42 +87,11 @@ def resize_image_boundingbox_csv(read_path, write_path, bounding_box, size, inde
     cv2.imwrite(new_path, cv2.cvtColor(resize_img, cv2.COLOR_RGB2BGR))
     return mask_to_boundingbox(resized_mask)
 
-new_boundingboxes = []
-
-path = "preprocessed_data/resized_images"
-isExist = os.path.exists(path)
-if not isExist:
-    os.makedirs(path)
-
-resized_data_path = Path(path)
-for img_info in train_data:
-    read_path = Path(str(images_path) + '/Cars' + str(img_info[0]) + '.png')
-    new_boundingbox = resize_image_boundingbox(read_path, resized_data_path, create_boundingbox_array(img_info), 224)
-
-    new_boundingboxes.append(new_boundingbox)
-train_data = np.hstack((train_data, new_boundingboxes))
-
-csv_annotations_paths = [Path("raw_data/dataset2/annotations.csv"), Path("raw_data/dataset3/annotations.csv"), Path("raw_data/dataset4/annotations.csv")]
-csv_train_data = np.array(get_train_data_info_csv(csv_annotations_paths))
-csv_images = filelist(Path("raw_data/dataset2"), '.jpg') + filelist(Path("raw_data/dataset3"), '.jpg') + filelist(Path("raw_data/dataset4"), '.jpg')
-
 def find_csv_read_path(image_file, full_paths):
     for path in full_paths:
         if image_file in path:
             return path
     return None
-
-new_boundingboxes = []
-index = train_data.shape[0]
-for img_info in csv_train_data:
-    read_path = Path(find_csv_read_path(img_info[0], csv_images))
-    new_boundingbox = resize_image_boundingbox_csv(read_path, resized_data_path, create_boundingbox_array_csv(img_info), 224, index)
-    index += 1
-    new_boundingboxes.append(new_boundingbox)
-csv_train_data = np.hstack((csv_train_data, new_boundingboxes))
-index_array = np.arange(train_data.shape[0], index).reshape(index - train_data.shape[0], 1)
-csv_train_data = np.hstack((index_array, csv_train_data))
-
 
 #######################
 ## DATA AUGMENTATION ##
@@ -217,15 +181,51 @@ def show_corner_bb(im, bb):
 # im, bb = transformsXY(str(read_path), csv_train_data[sample_img_num][9:], True)
 # show_corner_bb(im, bb)
 
-output = np.hstack((np.reshape(train_data[:, 0], (train_data.shape[0], 1)), train_data[:, 7:]))
+def preprocessing():
+    images_path = Path("raw_data/dataset1/images")
+    annotations_path = Path("raw_data/dataset1/annotations")
+    
+    train_data = get_train_data_info_xml(annotations_path)
+    new_boundingboxes = []
+    path = "preprocessed_data/resized_images"
+    isExist = os.path.exists(path)
+    if not isExist:
+        os.makedirs(path)
 
-output2 = np.delete(csv_train_data, 1, 1)
-output2 = np.delete(output2, 3, 1)
-output2 = output2.astype(np.int)
-output2 = np.hstack((np.reshape(output2[:, 0], (output2.shape[0], 1)), output2[:, 7:]))
+    resized_data_path = Path(path)
+    for img_info in train_data:
+        read_path = Path(str(images_path) + '/Cars' + str(img_info[0]) + '.png')
+        new_boundingbox = resize_image_boundingbox(read_path, resized_data_path, create_boundingbox_array(img_info), 224)
 
-total_output = np.vstack((output, output2))
-np.savetxt('boundingbox.csv', total_output, delimiter=',', fmt='%d')
+        new_boundingboxes.append(new_boundingbox)
+    train_data = np.hstack((train_data, new_boundingboxes))
+
+    csv_annotations_paths = [Path("raw_data/dataset2/annotations.csv"), Path("raw_data/dataset3/annotations.csv"), Path("raw_data/dataset4/annotations.csv")]
+    csv_train_data = np.array(get_train_data_info_csv(csv_annotations_paths))
+    csv_images = filelist(Path("raw_data/dataset2"), '.jpg') + filelist(Path("raw_data/dataset3"), '.jpg') + filelist(Path("raw_data/dataset4"), '.jpg')
+
+    new_boundingboxes = []
+    index = train_data.shape[0]
+    for img_info in csv_train_data:
+        read_path = Path(find_csv_read_path(img_info[0], csv_images))
+        new_boundingbox = resize_image_boundingbox_csv(read_path, resized_data_path, create_boundingbox_array_csv(img_info), 224, index)
+        index += 1
+        new_boundingboxes.append(new_boundingbox)
+    csv_train_data = np.hstack((csv_train_data, new_boundingboxes))
+    index_array = np.arange(train_data.shape[0], index).reshape(index - train_data.shape[0], 1)
+    csv_train_data = np.hstack((index_array, csv_train_data))
+
+    output = np.hstack((np.reshape(train_data[:, 0], (train_data.shape[0], 1)), train_data[:, 7:]))
+
+    output2 = np.delete(csv_train_data, 1, 1)
+    output2 = np.delete(output2, 3, 1)
+    output2 = output2.astype(np.int)
+    output2 = np.hstack((np.reshape(output2[:, 0], (output2.shape[0], 1)), output2[:, 7:]))
+
+    total_output = np.vstack((output, output2))
+    np.savetxt('boundingbox.csv', total_output, delimiter=',', fmt='%d')
+
+
 
 
 
